@@ -4,8 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #007BFF;
+}
+
+#buttons {
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#results {
+    margin-top: 20px;
+}
+
+.score {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.winner {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 10px;
+    color: #28a745;
+}
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Rock Paper Scissors</h1>
+        <div id="buttons">
+            <button id="rock">Rock</button>
+            <button id="paper">Paper</button>
+            <button id="scissors">Scissors</button>
+        </div>
+
+        <div id="results">
+            <div class="score">
+                <p>Human: <span id="HumanScore">0</span></p>
+            </div>
+            <div class="score">
+                <p>Computer: <span id="ComputerScore">0</span></p>
+            </div>
+            <div class="winner">
+                <p>Winner: <span id="winner"></span></p>
+            </div>
+        </div>
+    </div>
+
     <script>
         console.log("Hello World!")
         function getComputerChoice(){
@@ -22,65 +105,78 @@
             return choice;
         }
 
-        function getHumanChoice(){
-            let choice = (prompt("Enter your choice! (rock/paper/scissors):"));
-            choice=choice.toLowerCase();
-            return choice;
-        }
+        // function getHumanChoice(choice){
+        //     return choice;
+        // }
 
-        function playRound(){
-
-            computerChoice=getComputerChoice();
-            humanChoice=getHumanChoice();
-            console.log("I choose " + computerChoice);
-            if(humanChoice==="rock" && computerChoice==="scissors"){
-                console.log("Duh! you win this round. You are cheating, right?");
-                humanScore+=1;
-            }
-            else if(humanChoice==="paper" && computerChoice==="rock"){
-                console.log("Duh! you win this round. You are cheating, right?");
-                humanScore+=1;
-            }
-            else if(humanChoice==="scissors" && computerChoice==="paper"){
-                console.log("Duh! you win this round. You are cheating, right?");
-                humanScore+=1;
-            }
-            else if(humanChoice===computerChoice){
-                console.log("Damn! That's a tie!!");
-            }
-            else{
-                console.log("You fucking lost this round! LOL!! xD")
-                computerScore+=1;
-            }
-        }
+        
 
         function playGame(){
-            humanScore=0;
-            computerScore=0;
-            playRound();
-            playRound();
-            playRound();
-            playRound();
-            playRound();
+            function playRound(choice){
 
-            if(humanScore>computerScore){
+                computerChoice=getComputerChoice();
+                humanChoice=choice;
+                console.log("I choose " + computerChoice);
+                if(humanChoice==="rock" && computerChoice==="scissors"){
+                    console.log("Duh! you win this round. You are cheating, right?");
+                    humanScore+=1;
+                    humanScoreUI.textContent=humanScore;
+                }
+                else if(humanChoice==="paper" && computerChoice==="rock"){
+                    console.log("Duh! you win this round. You are cheating, right?");
+                    humanScore+=1;
+                    humanScoreUI.textContent=humanScore;
+                }
+                else if(humanChoice==="scissors" && computerChoice==="paper"){
+                    console.log("Duh! you win this round. You are cheating, right?");
+                    humanScore+=1;
+                    humanScoreUI.textContent=humanScore;
+                }
+                else if(humanChoice===computerChoice){
+                    console.log("Damn! That's a tie!!");
+                }
+                else{
+                    console.log("You fucking lost this round! LOL!! xD")
+                    computerScore+=1;
+                    ComputerScoreUI.textContent=computerScore;
+                }
+                if(humanScore==5){
+                winnerUI.textContent="Player";
                 console.log("Well, guess you win this game. I know you cheated so stop celebrating and fuck off!")
             }
-            else if(computerScore>humanScore){
+            else if(computerScore==5){
+                winnerUI.textContent="Computer";
                 console.log("I.FUCKING.WON.THIS.GAME!!! Look at you xD, LOSER!!")
             }
-            else{
-                console.log("Huh, that's a tie. Cheating can only you take you so far dipshit! ")
             }
+
+            let humanScore=0;
+            let computerScore=0;
+            let roundCount=0;
+            humanScoreUI.textContent=humanScore;
+            ComputerScoreUI.textContent=computerScore;
+            if(humanScore==5){
+                winnerUI.textContent="Player";
+                console.log("Well, guess you win this game. I know you cheated so stop celebrating and fuck off!")
+            }
+            else if(computerScore==5){
+                winnerUI.textContent="Computer";
+                console.log("I.FUCKING.WON.THIS.GAME!!! Look at you xD, LOSER!!")
+            }
+
+
+            buttons.addEventListener("click",(e)=>{
+            playRound(e.target.id);
+            });
         }
         
-        let humanScore=0;
-        let computerScore=0;
+        
+        let buttons=document.querySelector("#buttons");
+        let humanScoreUI=document.querySelector("#HumanScore")
+        let ComputerScoreUI=document.querySelector("#ComputerScore")
+        let winnerUI=document.querySelector("#winner")
         playGame();
-
-
-
-
+        
     </script>
 </body>
 </html>
